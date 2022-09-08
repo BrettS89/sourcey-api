@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  source-api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    command: ["npm", "run", "dev"]
+    container_name: "source-api"
+    depends_on:
+      - mongodb
+    env_file:
+      - ./.env
+    ports:
+      - "3030:3030"
+    restart: unless-stopped
+    volumes:
+      - api_node_modules:/app/node_modules
+      - .:/app
+
+  mongodb:
+    image: mongo
+    container_name: "mongodb"
+    env_file:
+      - ./.env
+    ports:
+      - "27017-27019:27017-27019"
+    logging:
+      driver: 'none'
+    restart: unless-stopped
+    volumes:
+      - data-mongodb:/data/db
+    command: --quiet
+
+volumes:
+  data-mongodb:
+  api_node_modules:
