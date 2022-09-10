@@ -31,6 +31,10 @@ export default function (app: Application): Model<any> {
       type: String,
       required: true,
     },
+    year: {
+      type: String,
+      required: true,
+    },
   }, {
     timestamps: true
   });
